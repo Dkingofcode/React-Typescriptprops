@@ -66,6 +66,15 @@ function List<ListItem>({
     )
 }
 
+// CLass component
+class MyHeader extends React.Component<{
+  title: ReactNode;
+}> {
+  render() {
+    return <h1>{this.props.title}</h1>;
+  }
+}
+
 function App() {
   return (
     <div className="App">
