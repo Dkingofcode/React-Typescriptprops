@@ -26,14 +26,17 @@ Container.defaultProps = defaultContainerProps;
 
 // Functional props
 function TextWithNumber ({
-  children
+  header,
+  children,
 }: {
-  children: (num: number) => ReactNode
+  header: (num: number) => ReactNode;
+  children: (num: number) => ReactNode;
 }) {
   const [state, stateSet] = React.useState<number>(1);
 
   return (
     <div>
+      {header && <h2>{header?.(state)}</h2>}
       <div>
         {children(state)}
       </div>
@@ -44,6 +47,24 @@ function TextWithNumber ({
   )
 }
 
+// List
+function List<ListItem>({
+  items, 
+  render,
+}: {
+  items: ListItem[],
+  render: (item: ListItem) => ReactNode
+}){
+    return (
+      <ul>
+        {items.map((item, index) => ( 
+           <li key={index}>
+            {render(item)}
+           </li>
+        ))}
+      </ul>
+    )
+}
 
 function App() {
   return (
@@ -53,7 +74,9 @@ function App() {
        <strong>Hi!</strong>
       </HeadingWithContent>
       <Container>Foo</Container>
-      <TextWithNumber>{(num: number) => <div>Today's number num is {num}</div>}</TextWithNumber>
+      <TextWithNumber header={(num: number) => <span>Header {num}</span>}>{(num: number) => <div>Today's number num is {num}</div>}</TextWithNumber>
+      <List items={["Jack", "Sadie", "oso"]} 
+            render={(item: string) => <div>{item.toLowerCase()}</div>}></List>
     </div>
   );
 }
